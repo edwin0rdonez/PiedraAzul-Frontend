@@ -1,0 +1,144 @@
+<section class="form-page">
+  <div class="form-card">
+    <div class="form-header">
+      <div>
+        <h2>Nueva Cita</h2>
+        <p>Registre los datos del paciente y la cita</p>
+      </div>
+      <div class="channel-pill">WhatsApp</div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-item active"><span>1</span> Datos del Paciente</div>
+      <div class="step-item"><span>2</span> Datos de la Cita</div>
+      <div class="step-item"><span>3</span> Confirmar</div>
+    </div>
+
+    <form [formGroup]="form" class="two-column-layout" (ngSubmit)="submit()">
+      <section class="panel-card">
+        <h3>Datos del Paciente</h3>
+
+        <div class="form-field">
+          <label for="numeroDocumento">Numero de Documento *</label>
+          <div class="document-row">
+            <input id="numeroDocumento" formControlName="numeroDocumento" (blur)="lookupPatient()">
+            <button type="button" class="search-icon-button" (click)="lookupPatient()">Buscar</button>
+          </div>
+          <span class="field-error" *ngIf="form.controls.numeroDocumento.touched && form.controls.numeroDocumento.invalid">Debe ingresar el numero de documento.</span>
+          <div class="success-chip" *ngIf="patientLookupMessage">{{ patientLookupMessage }}</div>
+        </div>
+
+        <div class="form-field">
+          <label for="nombres">Nombre y Apellido *</label>
+          <input id="nombres" formControlName="nombres">
+          <span class="field-error" *ngIf="form.controls.nombres.touched && form.controls.nombres.invalid">Debe ingresar el nombre y apellido.</span>
+        </div>
+
+        <div class="form-field">
+          <label for="celular">Celular *</label>
+          <input id="celular" formControlName="celular">
+          <span class="field-error" *ngIf="form.controls.celular.touched && form.controls.celular.errors?.['colombianCellphone']">
+            {{ form.controls.celular.errors?.['colombianCellphone'] }}
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label>Genero *</label>
+          <div class="chip-row">
+            <button
+              *ngFor="let option of genderOptions"
+              type="button"
+              class="choice-chip"
+              [class.active]="isSelectedGender(option.value)"
+              (click)="selectGender(option.value)">
+              {{ option.label }}
+            </button>
+          </div>
+          <span class="field-error" *ngIf="form.controls.genero.touched && form.controls.genero.invalid">Debe seleccionar el genero.</span>
+        </div>
+
+        <div class="form-field">
+          <label for="fechaNacimiento">Fecha de Nacimiento (opcional)</label>
+          <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento">
+        </div>
+
+        <div class="form-field">
+          <label for="correo">Correo Electronico (opcional)</label>
+          <input id="correo" type="email" formControlName="correo">
+        </div>
+      </section>
+
+      <section class="panel-card">
+        <h3>Datos de la Cita</h3>
+
+        <div class="form-field">
+          <label for="medicoId">Medico / Terapista *</label>
+          <select id="medicoId" formControlName="medicoId" (change)="loadSlots()">
+            <option value="">Seleccione un medico</option>
+            <option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.nombres }} {{ doctor.apellidos }} - {{ doctor.especialidad || 'Especialidad general' }}</option>
+          </select>
+          <span class="field-error" *ngIf="form.controls.medicoId.touched && form.controls.medicoId.invalid">Debe seleccionar un medico.</span>
+        </div>
+
+        <div class="form-field">
+          <label for="fecha">Fecha *</label>
+          <input id="fecha" type="date" formControlName="fecha" (change)="loadSlots()">
+          <span class="field-error" *ngIf="form.controls.fecha.touched && form.controls.fecha.invalid">Debe seleccionar una fecha.</span>
+        </div>
+
+        <div class="form-field">
+          <label>Hora disponible *</label>
+          <div class="chip-row">
+            <button
+              *ngFor="let slot of availableSlots"
+              type="button"
+              class="slot-chip"
+              [class.active]="form.controls.hora.value === slot.hora"
+              (click)="selectSlot(slot)">
+              {{ slot.hora }}
+            </button>
+          </div>
+          <input type="hidden" formControlName="hora">
+          <div class="slot-help" *ngIf="isLoadingSlots">Consultando franjas disponibles...</div>
+          <div class="slot-help" *ngIf="!isLoadingSlots">{{ slotMessage }}</div>
+          <span class="field-error" *ngIf="form.controls.hora.touched && form.controls.hora.invalid">Debe seleccionar una hora disponible.</span>
+        </div>
+
+        <div class="appointment-summary">
+          <strong>Resumen de la cita</strong>
+          <div>{{ selectedDoctorName }}</div>
+          <div>{{ form.controls.fecha.value || 'Sin fecha' }}</div>
+          <div>{{ form.controls.hora.value || 'Sin hora' }}</div>
+          <div>{{ form.controls.nombres.value || 'Paciente sin nombre' }}</div>
+        </div>
+      </section>
+    </form>
+
+    <div class="form-actions">
+      <button type="button" class="secondary-button" (click)="requestCancel()">Cancelar</button>
+      <button type="button" class="primary-button" (click)="requestSave()">Guardar Cita</button>
+    </div>
+
+    <div class="success-message" *ngIf="submitMessage">{{ submitMessage }}</div>
+    <div class="field-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success-message" *ngIf="selectedAppointment">Cita creada con ID {{ selectedAppointment.id }} a las {{ hourLabel(selectedAppointment.fechaHora) }}.</div>
+  </div>
+
+  <div class="dialog-backdrop" *ngIf="showDialog" (click)="closeDialog()">
+    <div class="dialog-card" [class.error]="dialogVariant === 'error'" (click)="$event.stopPropagation()">
+      <strong>
+        {{
+          dialogMode === 'confirm'
+            ? 'Confirmar accion'
+            : (dialogVariant === 'success' ? 'Operacion exitosa' : 'Operacion fallida')
+        }}
+      </strong>
+      <p>{{ dialogMessage }}</p>
+      <div class="dialog-actions" *ngIf="dialogMode === 'confirm'">
+        <button type="button" class="secondary-button" (click)="closeDialog()">No</button>
+        <button type="button" class="primary-button" (click)="confirmDialogAction()">Si</button>
+      </div>
+      <button type="button" class="primary-button" *ngIf="dialogMode === 'result'" (click)="closeDialog()">Aceptar</button>
+    </div>
+  </div>
+</section>

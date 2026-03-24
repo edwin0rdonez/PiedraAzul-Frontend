@@ -1,0 +1,45 @@
+<div class="app-shell">
+  <aside class="app-sidebar" [class.mobile-open]="menuOpen">
+    <div class="app-brand">
+      <span class="app-brand-badge">P</span>
+      <span>{{ brandName }}</span>
+    </div>
+
+    <nav class="app-menu" *ngIf="!isAdminRoute">
+      <a class="app-menu-item" routerLink="/agendador/consulta" (click)="closeMenu()">Inicio</a>
+      <a class="app-menu-item" routerLink="/agendador/consulta" routerLinkActive="active" (click)="closeMenu()">Consultar citas</a>
+      <a class="app-menu-item" routerLink="/agendador/nueva-cita" routerLinkActive="active" (click)="closeMenu()">Nueva cita</a>
+      <a class="app-menu-item" routerLink="/paciente/registro" routerLinkActive="active" (click)="closeMenu()">Pacientes</a>
+      <a class="app-menu-item" routerLink="/admin/disponibilidad" routerLinkActive="active" (click)="closeMenu()">Configuracion</a>
+    </nav>
+
+    <nav class="app-menu" *ngIf="isAdminRoute">
+      <a class="app-menu-item" routerLink="/agendador/consulta" (click)="closeMenu()">Dashboard</a>
+      <a class="app-menu-item" routerLink="/agendador/consulta" routerLinkActive="active" (click)="closeMenu()">Citas</a>
+      <a class="app-menu-item" routerLink="/agendador/nueva-cita" routerLinkActive="active" (click)="closeMenu()">Medicos</a>
+      <a class="app-menu-item" routerLink="/admin/disponibilidad" routerLinkActive="active" (click)="closeMenu()">Configuracion</a>
+      <a class="app-menu-item" routerLink="/paciente/registro" routerLinkActive="active" (click)="closeMenu()">Usuarios</a>
+      <a class="app-menu-item" routerLink="/admin/disponibilidad" (click)="closeMenu()">Auditoria</a>
+    </nav>
+  </aside>
+
+  <div class="app-main">
+    <header class="app-topbar">
+      <button type="button" class="app-menu-toggle" (click)="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="app-user">
+        <span>{{ userLabel }}</span>
+        <span class="app-user-badge">{{ userInitials }}</span>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <div class="app-overlay" *ngIf="menuOpen" (click)="closeMenu()"></div>
+</div>

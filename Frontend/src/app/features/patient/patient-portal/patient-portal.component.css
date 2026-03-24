@@ -1,0 +1,143 @@
+.portal-page {
+  padding: 28px 34px 34px;
+}
+
+.portal-card {
+  background: #eef4f8;
+  min-height: calc(100vh - 84px);
+  padding: 28px;
+}
+
+.portal-banner {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: #5b7486;
+}
+
+.portal-banner strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  color: #173250;
+}
+
+.portal-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.portal-step {
+  background: #ffffff;
+  border: 1px solid #dce6ed;
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #7990a0;
+  font-weight: 700;
+}
+
+.portal-step.active {
+  border-color: #11a6b1;
+  color: #118a9b;
+}
+
+.portal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.portal-toolbar label {
+  font-weight: 700;
+  color: #315064;
+}
+
+.portal-toolbar select,
+.portal-toolbar input {
+  min-height: 42px;
+  border: 1px solid #c8d7e0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #fbfdff;
+}
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.doctor-card,
+.portal-detail,
+.portal-confirmation {
+  background: #ffffff;
+  border: 1px solid #dce6ed;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+}
+
+.doctor-card {
+  display: grid;
+  gap: 10px;
+}
+
+.doctor-card span {
+  color: #7790a0;
+}
+
+.slot-row,
+.portal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.slot-pill,
+.portal-primary,
+.portal-secondary {
+  min-height: 42px;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+.slot-pill,
+.portal-secondary {
+  border: 1px solid #d4dfe7;
+  background: #ffffff;
+  color: #526f81;
+}
+
+.portal-primary {
+  border: none;
+  background: #118a9b;
+  color: #ffffff;
+}
+
+.portal-success {
+  margin-top: 14px;
+  color: #1f8d49;
+}
+
+@media (max-width: 720px) {
+  .portal-page {
+    padding: 18px;
+  }
+
+  .portal-card {
+    padding: 18px;
+  }
+
+  .portal-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

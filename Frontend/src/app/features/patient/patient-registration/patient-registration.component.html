@@ -1,0 +1,60 @@
+<section class="patient-page">
+  <div class="patient-card">
+    <div class="patient-register-panel">
+      <div class="patient-register-intro">
+        <div class="eyebrow">Registro</div>
+        <strong>Crea tu cuenta para agendar en linea</strong>
+       
+      </div>
+
+      <form [formGroup]="form" class="patient-form" (ngSubmit)="submit()">
+        <div class="patient-grid">
+          <div class="patient-field">
+            <label>Numero de documento *</label>
+            <input formControlName="numeroDocumento">
+          </div>
+          <div class="patient-field">
+            <label>Nombres *</label>
+            <input formControlName="nombres">
+          </div>
+          <div class="patient-field">
+            <label>Apellidos *</label>
+            <input formControlName="apellidos">
+          </div>
+          <div class="patient-field">
+            <label>Celular *</label>
+            <input formControlName="celular">
+          </div>
+          <div class="patient-field">
+            <label>Genero *</label>
+            <select formControlName="genero">
+              <option value="">Seleccione</option>
+              <option *ngFor="let option of genderOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+          </div>
+          <div class="patient-field">
+            <label>Correo electronico *</label>
+            <input type="email" formControlName="correo">
+          </div>
+          <div class="patient-field">
+            <label>Contrasena *</label>
+            <input type="password" formControlName="password">
+            <span class="patient-help">Fortaleza actual: {{ passwordStrengthLabel }}</span>
+          </div>
+          <div class="patient-field">
+            <label>Confirmar contrasena *</label>
+            <input type="password" formControlName="passwordConfirmation">
+          </div>
+        </div>
+
+        <div class="patient-actions">
+          <a class="patient-secondary" routerLink="/paciente/portal">Ir al portal</a>
+          <button class="patient-primary" type="submit">Crear cuenta</button>
+        </div>
+      </form>
+
+      <div class="patient-success" *ngIf="message">{{ message }}</div>
+      <div class="patient-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,268 @@
+.form-page {
+  padding: 28px 34px 34px;
+}
+
+.form-card {
+  background: #eef4f8;
+  min-height: calc(100vh - 84px);
+  padding: 28px;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  color: #173250;
+}
+
+.form-header p {
+  margin: 8px 0 0;
+  color: #7890a1;
+}
+
+.channel-pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #41cc63;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.step-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 18px 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #d6e2ea;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #7f95a4;
+  font-weight: 700;
+}
+
+.step-item span {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #91a4b0;
+  color: #ffffff;
+}
+
+.step-item.active {
+  color: #1692a0;
+}
+
+.step-item.active span {
+  background: #1692a0;
+}
+
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.panel-card {
+  background: #ffffff;
+  border: 1px solid #dce6ed;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+}
+
+.panel-card h3 {
+  margin: 0 0 16px;
+  color: #4d6a7b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.form-field label {
+  font-weight: 700;
+  color: #305064;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #c8d7e0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #fbfdff;
+}
+
+.document-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.search-icon-button,
+.primary-button,
+.secondary-button {
+  min-height: 42px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.search-icon-button,
+.primary-button {
+  border: none;
+  background: #118a9b;
+  color: #ffffff;
+}
+
+.secondary-button {
+  border: 1px solid #d4dfe7;
+  background: #ffffff;
+  color: #526f81;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.choice-chip,
+.slot-chip {
+  border: 1px solid #d5e1e8;
+  background: #ffffff;
+  color: #486879;
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+.choice-chip.active,
+.slot-chip.active {
+  background: #0f8f9b;
+  color: #ffffff;
+  border-color: #0f8f9b;
+}
+
+.success-chip {
+  display: inline-flex;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #e7f8eb;
+  color: #2da35a;
+  font-size: 0.88rem;
+}
+
+.appointment-summary {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #eef4f8;
+  color: #4c697b;
+  display: grid;
+  gap: 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.success-message {
+  margin-top: 12px;
+  color: #1d8f4b;
+}
+
+.field-error {
+  margin-top: 8px;
+  color: #d64545;
+  font-size: 0.84rem;
+}
+
+.slot-help {
+  color: #778f9f;
+  font-size: 0.9rem;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 18, 27, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  padding: 20px;
+}
+
+.dialog-card {
+  width: min(360px, 100%);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  display: grid;
+  gap: 14px;
+  color: #173250;
+}
+
+.dialog-card.error strong {
+  color: #d64545;
+}
+
+.dialog-card p {
+  margin: 0;
+  color: #5d7485;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 1080px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .form-page {
+    padding: 18px;
+  }
+
+  .form-card {
+    padding: 18px;
+  }
+
+  .form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step-row {
+    grid-template-columns: 1fr;
+  }
+}

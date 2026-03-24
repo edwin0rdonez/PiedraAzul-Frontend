@@ -1,0 +1,92 @@
+<section class="consult-page">
+  <div class="consult-card">
+    <div class="consult-header">
+      <h2>Consulta de Citas</h2>
+      <p>Busque citas por medico y fecha</p>
+    </div>
+
+    <form [formGroup]="searchForm" class="consult-search" (ngSubmit)="search()">
+      <div class="consult-field">
+        <label for="medicoId">Medico / Terapista *</label>
+        <select id="medicoId" formControlName="medicoId">
+          <option value="">Seleccione un medico</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">
+            {{ doctor.nombres }} {{ doctor.apellidos }} - {{ doctor.especialidad || 'Especialidad general' }}
+          </option>
+        </select>
+        <span class="consult-error" *ngIf="searchForm.controls.medicoId.touched && searchForm.controls.medicoId.invalid">
+          Debe seleccionar un medico.
+        </span>
+      </div>
+
+      <div class="consult-field">
+        <label for="fecha">Fecha *</label>
+        <input id="fecha" type="date" formControlName="fecha">
+        <span class="consult-error" *ngIf="searchForm.controls.fecha.touched && searchForm.controls.fecha.invalid">
+          Debe seleccionar una fecha.
+        </span>
+      </div>
+
+      <button type="submit" class="consult-button">Buscar</button>
+    </form>
+
+    <div class="metric-grid">
+      <article class="metric-card">
+        <strong>{{ appointments.length }}</strong>
+        <span>Total de citas</span>
+      </article>
+      <article class="metric-card">
+        <strong>{{ getMetricValue('Confirmadas') }}</strong>
+        <span>Confirmadas</span>
+      </article>
+      <article class="metric-card warning">
+        <strong>{{ getMetricValue('Pendientes') }}</strong>
+        <span>Pendientes</span>
+      </article>
+      <article class="metric-card danger">
+        <strong>{{ getMetricValue('Canceladas') }}</strong>
+        <span>Canceladas</span>
+      </article>
+    </div>
+
+    <div class="loading-state" *ngIf="isLoading">Consultando citas del dia...</div>
+    <div class="consult-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="consult-table-card" *ngIf="appointments.length > 0">
+      <table class="consult-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Paciente</th>
+            <th>Documento</th>
+            <th>Celular</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of appointments; let index = index; trackBy: trackByAppointment">
+            <td>{{ index + 1 }}</td>
+            <td class="patient-cell">{{ appointment.nombrePaciente }}</td>
+            <td>{{ appointment.documentoPaciente }}</td>
+            <td>{{ appointment.celularPaciente }}</td>
+            <td>{{ hourLabel(appointment.fechaHora) }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="statusClass(appointment.estado)">
+                {{ appointment.estado === 'CONFIRMADA' ? 'Confirmada' : appointment.estado === 'CANCELADA' ? 'Cancelada' : 'Pendiente' }}
+              </span>
+            </td>
+            <td>
+              <button type="button" class="action-button">Ver</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="searchExecuted && !isLoading && appointments.length === 0 && !errorMessage">
+      No se encontraron citas para los criterios seleccionados.
+    </div>
+  </div>
+</section>

@@ -1,0 +1,158 @@
+<section class="config-page">
+  <div class="config-card">
+    <div class="config-header">
+      <h2>Configuracion del Sistema</h2>
+      <p>Parametros globales y disponibilidad de medicos</p>
+    </div>
+
+    <div class="global-panel">
+      <div class="global-left">
+        <h3>Parametros globales de agendamiento</h3>
+        <label>Ventana de agendamiento *</label>
+        <div class="window-row">
+          <input type="number" [formControl]="form.controls.ventanaSemanas">
+          <span>semanas</span>
+          <button type="button" class="save-button" (click)="requestSaveSystemWindow()">Guardar</button>
+        </div>
+        <div class="field-error" *ngIf="form.controls.ventanaSemanas.touched && form.controls.ventanaSemanas.invalid">Debe ingresar una ventana valida entre 1 y 52 semanas.</div>
+        <div class="window-preview">Citas habilitadas hasta el {{ appointmentWindowEnd }}</div>
+      </div>
+      <div class="global-right">
+        <p>Define cuantas semanas hacia adelante pueden verse las fechas disponibles para agendar.</p>
+        <p>Rango permitido: 1 - 52 semanas</p>
+      </div>
+    </div>
+
+    <div class="availability-panel">
+      <div class="availability-head">
+        <h3>Disponibilidad por medico / terapista</h3>
+        <button type="button" class="save-button secondary">+ Agregar profesional</button>
+      </div>
+
+      <form [formGroup]="form" class="availability-grid">
+        <div class="availability-left">
+          <div class="config-field">
+            <label>Seleccione el profesional a configurar</label>
+            <select formControlName="medicoId" (change)="updatePreview()">
+              <option value="">Seleccione un medico</option>
+              <option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.nombres }} {{ doctor.apellidos }} - {{ doctor.especialidad || 'Especialidad general' }}</option>
+            </select>
+            <div class="field-error" *ngIf="form.controls.medicoId.touched && form.controls.medicoId.invalid">Debe seleccionar un medico.</div>
+          </div>
+
+          <div class="config-field">
+            <label>Dias de atencion *</label>
+            <div class="day-row">
+              <button
+                *ngFor="let day of dayOptions"
+                type="button"
+                class="day-button"
+                [class.active]="isSelected(day.value)"
+                (click)="toggleDay(day.value); updatePreview()">
+                {{ day.label.charAt(0) }}
+              </button>
+            </div>
+          </div>
+
+          <div class="time-grid">
+            <div class="config-field">
+              <label>Hora de inicio *</label>
+              <input type="time" formControlName="horaInicio" (change)="updatePreview()">
+              <div class="field-error" *ngIf="form.controls.horaInicio.touched && form.controls.horaInicio.invalid">Debe ingresar la hora de inicio.</div>
+            </div>
+            <div class="config-field">
+              <label>Hora de fin *</label>
+              <input type="time" formControlName="horaFin" (change)="updatePreview()">
+              <div class="field-error" *ngIf="form.controls.horaFin.touched && form.controls.horaFin.invalid">Debe ingresar la hora de fin.</div>
+            </div>
+          </div>
+
+          <div class="config-field">
+            <label>Intervalo entre citas (minutos) *</label>
+            <div class="chip-row">
+              <button
+                *ngFor="let interval of intervalOptions"
+                type="button"
+                class="interval-chip"
+                [class.active]="form.controls.intervaloMinutos.value === interval"
+                (click)="selectInterval(interval)">
+                {{ interval }} min
+              </button>
+            </div>
+          </div>
+
+          <div class="config-actions">
+            <button type="button" class="cancel-button" (click)="requestCancel()">Cancelar</button>
+            <button type="button" class="save-button" (click)="requestSaveAvailability()">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="availability-right">
+          <h4>Vista previa de franjas generadas</h4>
+          <div class="preview-card">
+            <strong>{{ selectedDoctorName }}</strong>
+            <div>{{ daysArray.value.join(', ') || 'Sin dias seleccionados' }}</div>
+            <div>{{ form.controls.horaInicio.value }} - {{ form.controls.horaFin.value }}</div>
+            <div>Intervalo {{ form.controls.intervaloMinutos.value }} min</div>
+
+            <div class="preview-highlight">
+              <strong>{{ previewSlotsPerDay }} citas/dia</strong>
+              <span>{{ weeklySlots }} citas / semana</span>
+            </div>
+
+            <p>Las citas ya reservadas no seran afectadas. Solo se aplicara a nuevas franjas.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="audit-panel">
+      <h3>Ultimos cambios - Registro de auditoria</h3>
+      <div class="audit-table-wrap">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Usuario</th>
+              <th>Accion</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of auditLog">
+              <td>{{ log.timestamp }}</td>
+              <td>{{ log.actor }}</td>
+              <td>
+                <span class="audit-pill" [ngClass]="auditClass(log.action)">{{ log.action }}</span>
+              </td>
+              <td>{{ log.detail }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="field-error" *ngIf="form.errors?.['invalidTimeRange']">{{ form.errors?.['invalidTimeRange'] }}</div>
+    <div class="field-error" *ngIf="daysArray.touched && daysArray.length === 0">Debe seleccionar al menos un dia.</div>
+    <div class="success-message" *ngIf="message">{{ message }}</div>
+    <div class="field-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </div>
+
+  <div class="dialog-backdrop" *ngIf="showDialog" (click)="closeDialog()">
+    <div class="dialog-card" [class.error]="dialogVariant === 'error'" (click)="$event.stopPropagation()">
+      <strong>
+        {{
+          dialogMode === 'confirm'
+            ? 'Confirmar accion'
+            : (dialogVariant === 'success' ? 'Operacion exitosa' : 'Operacion fallida')
+        }}
+      </strong>
+      <p>{{ dialogMessage }}</p>
+      <div class="dialog-actions" *ngIf="dialogMode === 'confirm'">
+        <button type="button" class="cancel-button" (click)="closeDialog()">No</button>
+        <button type="button" class="save-button" (click)="confirmDialogAction()">Si</button>
+      </div>
+      <button type="button" class="save-button" *ngIf="dialogMode === 'result'" (click)="closeDialog()">Aceptar</button>
+    </div>
+  </div>
+</section>

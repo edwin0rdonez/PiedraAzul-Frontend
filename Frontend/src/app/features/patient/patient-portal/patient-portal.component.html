@@ -1,0 +1,58 @@
+<section class="portal-page">
+  <div class="portal-card">
+    <div class="portal-banner">
+      <span>{{ sessionName }}</span>
+      <strong>Selecciona tu cita</strong>
+    </div>
+
+    <div class="portal-steps">
+      <article class="portal-step" *ngFor="let step of steps" [class.active]="wizardStore.snapshot.step === step.index">
+        {{ step.title }}
+      </article>
+    </div>
+
+    <div class="portal-toolbar" *ngIf="wizardStore.snapshot.step === 1">
+      <label>Especialidad</label>
+      <select [value]="selectedSpecialty" (change)="filterBySpecialty(($any($event.target)).value)">
+        <option value="">Todas</option>
+        <option *ngFor="let specialty of specialties" [value]="specialty">{{ specialty }}</option>
+      </select>
+    </div>
+
+    <div class="portal-grid" *ngIf="wizardStore.snapshot.step === 1">
+      <article class="doctor-card" *ngFor="let doctor of filteredDoctors">
+        <strong>{{ doctor.nombres }} {{ doctor.apellidos }}</strong>
+        <span>{{ doctor.especialidad || 'Especialidad general' }}</span>
+        <button type="button" class="portal-primary" (click)="selectDoctor(doctor)">Agendar</button>
+      </article>
+    </div>
+
+    <div class="portal-detail" *ngIf="wizardStore.snapshot.step === 2 && wizardStore.snapshot.selectedDoctor as doctor">
+      <strong>{{ doctor.nombres }} {{ doctor.apellidos }}</strong>
+      <div class="portal-toolbar">
+        <label>Fecha</label>
+        <input type="date" [min]="minDate" [max]="maxDate" (change)="loadSlots(($any($event.target)).value)">
+      </div>
+
+      <div class="slot-row">
+        <button class="slot-pill" type="button" *ngFor="let slot of availableSlots" (click)="selectSlot(slot)">
+          {{ slot.hora }}
+        </button>
+      </div>
+    </div>
+
+    <div class="portal-confirmation" *ngIf="wizardStore.snapshot.step === 3 && wizardStore.snapshot.selectedDoctor && wizardStore.snapshot.selectedSlot">
+      <div><strong>Medico:</strong> {{ wizardStore.snapshot.selectedDoctor.nombres }} {{ wizardStore.snapshot.selectedDoctor.apellidos }}</div>
+      <div><strong>Fecha:</strong> {{ wizardStore.snapshot.selectedDate }}</div>
+      <div><strong>Hora:</strong> {{ wizardStore.snapshot.selectedSlot.hora }}</div>
+      <div class="portal-actions">
+        <button class="portal-secondary" type="button" (click)="backToDoctorSelection()">Volver</button>
+        <button class="portal-primary" type="button" (click)="confirmAppointment()">Confirmar</button>
+      </div>
+    </div>
+
+    <div class="portal-success" *ngIf="confirmation">
+      Cita confirmada con codigo {{ confirmation.id }} para {{ confirmation.nombreMedico }}.
+    </div>
+  </div>
+</section>

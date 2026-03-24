@@ -1,0 +1,217 @@
+.consult-page {
+  padding: 28px 34px 34px;
+}
+
+.consult-card {
+  background: #eef4f8;
+  border-top: 1px solid #d9e3ea;
+  min-height: calc(100vh - 84px);
+  padding: 28px 28px 36px;
+}
+
+.consult-header h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  color: #173250;
+}
+
+.consult-header p {
+  margin: 8px 0 24px;
+  color: #71889a;
+}
+
+.consult-search {
+  display: grid;
+  grid-template-columns: 1.5fr 0.9fr auto;
+  gap: 18px;
+  align-items: end;
+  background: #ffffff;
+  border: 1px solid #dce6ed;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+}
+
+.consult-field {
+  display: grid;
+  gap: 8px;
+}
+
+.consult-field label {
+  font-weight: 700;
+  color: #305064;
+}
+
+.consult-field input,
+.consult-field select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #c8d7e0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #fbfdff;
+}
+
+.consult-button {
+  min-width: 130px;
+  min-height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: #16b7b3;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.consult-error {
+  color: #d54242;
+  font-size: 0.84rem;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 26px 0;
+}
+
+.metric-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border-top: 3px solid #18c1bc;
+  padding: 18px 20px;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+}
+
+.metric-card.warning {
+  border-top-color: #f3a61d;
+}
+
+.metric-card.danger {
+  border-top-color: #ff5353;
+}
+
+.metric-card strong {
+  display: block;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #08264a;
+}
+
+.metric-card span {
+  display: block;
+  margin-top: 8px;
+  color: #677f92;
+}
+
+.consult-table-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+  overflow: hidden;
+}
+
+.consult-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.consult-table thead th {
+  background: #102d39;
+  color: #ffffff;
+  padding: 14px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  text-align: left;
+}
+
+.consult-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e4edf2;
+  color: #325264;
+}
+
+.consult-table tbody tr:nth-child(even) td {
+  background: #f7fafc;
+}
+
+.patient-cell {
+  font-weight: 700;
+  color: #27445c;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.status-pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-confirmed {
+  background: #e7f8eb;
+  color: #24a153;
+}
+
+.status-pending {
+  background: #fff1d4;
+  color: #e6a01d;
+}
+
+.status-cancelled {
+  background: #ffe5e5;
+  color: #ef5d5d;
+}
+
+.action-button {
+  border: 1px solid #d7e2ea;
+  background: #ffffff;
+  color: #49697e;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.empty-state,
+.loading-state {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 44px 20px;
+  text-align: center;
+  color: #8b9fb0;
+  box-shadow: 0 10px 22px rgba(30, 60, 82, 0.07);
+}
+
+@media (max-width: 1100px) {
+  .consult-search {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .consult-page {
+    padding: 18px;
+  }
+
+  .consult-card {
+    padding: 18px;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
