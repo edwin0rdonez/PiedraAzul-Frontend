@@ -1,0 +1,21 @@
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button type="button" class="app-menu-toggle" (click)="onToggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <span class="app-brand-text">Piedra Azul</span>
+  </div>
+  
+  <div class="app-user">
+    <ng-container *ngIf="isLoggedIn; else authLinks">
+      <span class="user-name">{{ userLabel }}</span>
+      <span class="app-user-badge">{{ userInitials }}</span>
+    </ng-container>
+    <ng-template #authLinks>
+      <a class="auth-link" (click)="onLogin()">Iniciar Sesión</a>
+      <a class="auth-link" (click)="onRegister()">Regístrate</a>
+    </ng-template>
+  </div>
+</header>

@@ -172,6 +172,28 @@
   font-size: 0.88rem;
 }
 
+.warning-chip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #fff3cd;
+  color: #856404;
+  font-size: 0.88rem;
+}
+
+.register-link {
+  color: #118a9b;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
 .appointment-summary {
   margin-top: 18px;
   padding: 14px 16px;

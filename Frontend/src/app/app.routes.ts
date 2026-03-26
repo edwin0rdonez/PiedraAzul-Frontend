@@ -6,13 +6,15 @@ import { AppointmentSearchComponent } from './features/agendador/appointment-sea
 import { NewAppointmentFormComponent } from './features/agendador/new-appointment-form/new-appointment-form.component';
 import { PatientPortalComponent } from './features/patient/patient-portal/patient-portal.component';
 import { PatientRegistrationComponent } from './features/patient/patient-registration/patient-registration.component';
+import { DashboardComponent } from './features/agendador/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'agendador/consulta' },
+  { path: '', pathMatch: 'full', redirectTo: 'inicio' },
+  { path: 'inicio', component: DashboardComponent },
   { path: 'agendador/consulta', component: AppointmentSearchComponent },
-  { path: 'agendador/nueva-cita', component: NewAppointmentFormComponent },
+  { path: 'agendador/nuevaCita', component: NewAppointmentFormComponent },
   { path: 'paciente/registro', component: PatientRegistrationComponent },
   { path: 'paciente/portal', component: PatientPortalComponent, canActivate: [authGuard] },
   { path: 'admin/disponibilidad', component: AvailabilityConfigComponent },
-  { path: '**', redirectTo: 'agendador/consulta' }
+  { path: '**', redirectTo: 'inicio' }
 ];

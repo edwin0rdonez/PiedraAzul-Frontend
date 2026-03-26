@@ -1,4 +1,22 @@
 :root {
+  /* Palette de colores */
+  --color-primary-blue: #173250;
+  --color-secondary-blue-light: #b7c8d2;
+  --color-background-light: #eef4f8;
+  --color-white: #ffffff;
+  --color-accent-green: #5cb85c;
+  --color-accent-green-dark: #4cae4c;
+  --color-link-blue: #118a9b;
+  --color-input-border: #c8d7e0;
+  --color-input-focus-shadow: rgba(30, 195, 204, 0.15);
+  --color-text-dark: #305064;
+  --color-text-subtle: #7890a1;
+  --color-text-main: #173042;
+  --color-success-bg: #e7f8eb;
+  --color-success-text: #2da35a;
+  --color-error-text: #d32f2f;
+  --color-error-bg: #ffebee;
+
   color-scheme: light;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

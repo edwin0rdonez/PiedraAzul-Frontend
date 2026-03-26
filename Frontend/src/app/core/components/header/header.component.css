@@ -1,0 +1,104 @@
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 34px;
+  background: #143240;
+  color: #e8f3f7;
+  height: 84px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-brand-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.96rem;
+}
+
+.user-name {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.app-user-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: #1cb7be;
+}
+
+.auth-link {
+  color: #b7c8d2;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.auth-link:first-child {
+  color: #5cb85c;
+}
+
+.auth-link:first-child:hover {
+  background: rgba(92, 184, 92, 0.15);
+}
+
+.app-menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  cursor: pointer;
+}
+
+.app-menu-toggle span {
+  display: block;
+  height: 3px;
+  margin: 4px 0;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .app-topbar {
+    padding: 0 18px;
+    height: 72px;
+  }
+
+  .app-menu-toggle {
+    display: inline-block;
+  }
+
+  .app-brand-text {
+    font-size: 1rem;
+  }
+}

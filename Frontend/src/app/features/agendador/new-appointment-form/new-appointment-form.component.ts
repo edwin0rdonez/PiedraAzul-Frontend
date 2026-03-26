@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { GENDER_OPTIONS } from '../../../core/constants/day-options';
 import { Appointment } from '../../../core/models/appointment.model';
@@ -15,7 +16,7 @@ import { colombianCellphoneValidator } from '../../../shared/validators/custom-v
 @Component({
   selector: 'app-new-appointment-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './new-appointment-form.component.html',
   styleUrls: ['./new-appointment-form.component.css']
 })
@@ -42,6 +43,7 @@ export class NewAppointmentFormComponent implements OnInit {
   pendingAction: 'save' | 'cancel' | null = null;
   showDialog = false;
   patientLookupMessage = '';
+  patientNotFound = false;
   submitMessage = '';
   errorMessage = '';
   slotMessage = 'Selecciona medico y fecha para cargar las horas disponibles.';
@@ -66,9 +68,11 @@ export class NewAppointmentFormComponent implements OnInit {
       return;
     }
 
+    this.patientNotFound = false;
     this.patientApi.findByDocument(documentNumber).subscribe((patient) => {
       if (!patient) {
-        this.patientLookupMessage = '';
+        this.patientNotFound = true;
+        this.patientLookupMessage = 'Paciente no encontrado. Complete los datos del paciente para registrarlo.';
         return;
       }
 
