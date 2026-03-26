@@ -24,8 +24,8 @@
 .app-user {
   display: flex;
   align-items: center;
-  gap: 14px;
-  font-size: 0.96rem;
+  gap: clamp(10px, 2vw, 14px);
+  font-size: clamp(0.8rem, 0.6vw + 0.7rem, 0.96rem);
 }
 
 .user-name {
@@ -49,9 +49,10 @@
 .auth-link {
   color: #b7c8d2;
   text-decoration: none;
-  padding: 8px 16px;
+  padding: clamp(6px, 1vw, 8px) clamp(12px, 2vw, 16px);
   border-radius: 8px;
   font-weight: 600;
+  font-size: clamp(0.75rem, 0.5vw + 0.65rem, 0.9rem);
   transition: all 0.2s;
   cursor: pointer;
 }
@@ -90,8 +91,8 @@
 
 @media (max-width: 980px) {
   .app-topbar {
-    padding: 0 18px;
-    height: 72px;
+    padding: 0 clamp(12px, 4vw, 18px);
+    height: clamp(56px, 10vh, 72px);
   }
 
   .app-menu-toggle {
@@ -99,6 +100,6 @@
   }
 
   .app-brand-text {
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 1vw + 0.75rem, 1rem);
   }
 }

@@ -28,19 +28,18 @@
           <div class="success-chip" *ngIf="patientLookupMessage && !patientNotFound">{{ patientLookupMessage }}</div>
           <div class="warning-chip" *ngIf="patientLookupMessage && patientNotFound">
             {{ patientLookupMessage }}
-            <a routerLink="/register" class="register-link">Regístrate aquí</a>
           </div>
         </div>
 
         <div class="form-field">
           <label for="nombres">Nombre y Apellido *</label>
-          <input id="nombres" formControlName="nombres">
+          <input id="nombres" formControlName="nombres" [attr.disabled]="patientLookupMessage && !patientNotFound ? true : null">
           <span class="field-error" *ngIf="form.controls.nombres.touched && form.controls.nombres.invalid">Debe ingresar el nombre y apellido.</span>
         </div>
 
         <div class="form-field">
           <label for="celular">Celular *</label>
-          <input id="celular" formControlName="celular">
+          <input id="celular" formControlName="celular" [attr.disabled]="patientLookupMessage && !patientNotFound ? true : null">
           <span class="field-error" *ngIf="form.controls.celular.touched && form.controls.celular.errors?.['colombianCellphone']">
             {{ form.controls.celular.errors?.['colombianCellphone'] }}
           </span>
@@ -54,6 +53,7 @@
               type="button"
               class="choice-chip"
               [class.active]="isSelectedGender(option.value)"
+              [disabled]="patientLookupMessage && !patientNotFound"
               (click)="selectGender(option.value)">
               {{ option.label }}
             </button>
@@ -63,12 +63,12 @@
 
         <div class="form-field">
           <label for="fechaNacimiento">Fecha de Nacimiento (opcional)</label>
-          <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento">
+          <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" [attr.disabled]="patientLookupMessage && !patientNotFound ? true : null">
         </div>
 
         <div class="form-field">
           <label for="correo">Correo Electronico (opcional)</label>
-          <input id="correo" type="email" formControlName="correo">
+          <input id="correo" type="email" formControlName="correo" [attr.disabled]="patientLookupMessage && !patientNotFound ? true : null">
         </div>
       </section>
 

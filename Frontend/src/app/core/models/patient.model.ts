@@ -19,6 +19,7 @@ export interface PatientRequest {
   genero: Gender;
   fechaNacimiento?: string | null;
   correo?: string | null;
+  contrasena?: string;
 }
 
 export interface PatientRegistration extends PatientRequest {

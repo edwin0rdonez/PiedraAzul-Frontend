@@ -14,14 +14,14 @@
 
 .dashboard-content h1 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.8rem;
+  font-size: clamp(1.4rem, 2vw + 1rem, 1.8rem);
   color: #173250;
   margin: 0 0 8px;
 }
 
 .dashboard-subtitle {
   color: #7890a1;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1rem);
   margin: 0 0 32px;
 }
 

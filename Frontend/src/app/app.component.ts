@@ -124,6 +124,7 @@ export class AppComponent {
 
   logout(): void {
     localStorage.removeItem('piedrazul_user');
+    localStorage.removeItem('piedrazul.patient.session');
     window.location.href = '/inicio';
   }
 }

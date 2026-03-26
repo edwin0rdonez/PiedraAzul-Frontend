@@ -31,6 +31,7 @@ body {
   min-height: 100%;
   background: #eaf0f5;
   color: #173042;
+  overflow-x: hidden;
 }
 
 button,
@@ -42,4 +43,23 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+/* Scrollbar estilos */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8d7e0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0b5c5;
 }

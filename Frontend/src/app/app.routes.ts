@@ -11,10 +11,10 @@ import { DashboardComponent } from './features/agendador/dashboard/dashboard.com
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
   { path: 'inicio', component: DashboardComponent },
-  { path: 'agendador/consulta', component: AppointmentSearchComponent },
-  { path: 'agendador/nuevaCita', component: NewAppointmentFormComponent },
+  { path: 'agendador/consulta', component: AppointmentSearchComponent, canActivate: [authGuard] },
+  { path: 'agendador/nuevaCita', component: NewAppointmentFormComponent, canActivate: [authGuard] },
   { path: 'paciente/registro', component: PatientRegistrationComponent },
   { path: 'paciente/portal', component: PatientPortalComponent, canActivate: [authGuard] },
-  { path: 'admin/disponibilidad', component: AvailabilityConfigComponent },
+  { path: 'admin/disponibilidad', component: AvailabilityConfigComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'inicio' }
 ];

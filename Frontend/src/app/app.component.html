@@ -10,7 +10,7 @@
       <a class="app-menu-item" routerLink="/inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
       
       <ng-container *ngIf="isLoggedIn">
-        <a class="app-menu-item" routerLink="/agendador/nuevaCita" routerLinkActive="active" (click)="closeMenu()">Agendar cita</a>
+        <a class="app-menu-item" routerLink="/agendador/nuevaCita" routerLinkActive="active" (click)="closeMenu()">Nueva cita</a>
         <a class="app-menu-item" routerLink="/agendador/consulta" routerLinkActive="active" (click)="closeMenu()">Consultar citas</a>
         
         <ng-container *ngIf="isAdmin">

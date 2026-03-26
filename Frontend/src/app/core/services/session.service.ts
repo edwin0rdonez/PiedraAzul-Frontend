@@ -3,7 +3,16 @@ import { Injectable } from '@angular/core';
 import { Gender, PatientSession } from '../models/patient.model';
 import { environment } from '../../../environments/environment';
 
-const SESSION_STORAGE_KEY = 'piedrazul.patient.session';
+const SESSION_STORAGE_KEY = 'piedrazul_user';
+
+interface UserSession {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  correo: string;
+  rol: string;
+  activo: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {
@@ -31,17 +40,31 @@ export class SessionService {
       return null;
     }
 
-    const parsed = JSON.parse(raw) as PatientSession;
-    if (new Date(parsed.expiresAt).getTime() <= Date.now()) {
-      this.clear();
+    try {
+      const parsed = JSON.parse(raw) as PatientSession;
+      if (new Date(parsed.expiresAt).getTime() <= Date.now()) {
+        this.clear();
+        return null;
+      }
+
+      return parsed;
+    } catch {
       return null;
     }
-
-    return parsed;
   }
 
   isAuthenticated(): boolean {
-    return this.getSession() !== null;
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) {
+      return false;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as UserSession;
+      return !!(parsed && parsed.id && parsed.activo === true);
+    } catch {
+      return false;
+    }
   }
 
   clear(): void {

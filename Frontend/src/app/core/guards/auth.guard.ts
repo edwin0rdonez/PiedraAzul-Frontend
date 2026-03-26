@@ -11,5 +11,5 @@ export const authGuard: CanActivateFn = () => {
     return true;
   }
 
-  return router.parseUrl('/paciente/registro');
+  return router.parseUrl('/inicio');
 };

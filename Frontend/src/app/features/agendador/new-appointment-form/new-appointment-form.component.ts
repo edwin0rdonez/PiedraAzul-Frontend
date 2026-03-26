@@ -72,7 +72,7 @@ export class NewAppointmentFormComponent implements OnInit {
     this.patientApi.findByDocument(documentNumber).subscribe((patient) => {
       if (!patient) {
         this.patientNotFound = true;
-        this.patientLookupMessage = 'Paciente no encontrado. Complete los datos del paciente para registrarlo.';
+        this.patientLookupMessage = 'Paciente no encontrado. Complete los datos del paciente a continuación.';
         return;
       }
 
@@ -150,7 +150,7 @@ export class NewAppointmentFormComponent implements OnInit {
 
     const value = this.form.getRawValue();
     const fullName = this.splitFullName(value.nombres ?? '');
-    this.appointmentApi.create({
+    const request = {
       paciente: {
         numeroDocumento: value.numeroDocumento ?? '',
         nombres: fullName.nombres,
@@ -158,11 +158,14 @@ export class NewAppointmentFormComponent implements OnInit {
         celular: value.celular ?? '',
         genero: (value.genero ?? 'OTRO') as 'HOMBRE' | 'MUJER' | 'OTRO',
         fechaNacimiento: value.fechaNacimiento || null,
-        correo: value.correo || null
+        correo: value.correo || null,
+        contrasena: value.numeroDocumento ?? ''
       },
       medicoId: Number(value.medicoId),
       fechaHora: combineDateAndTime(value.fecha ?? '', value.hora ?? '')
-    }, 'AGENDADOR').subscribe({
+    };
+    
+    this.appointmentApi.create(request, 'AGENDADOR').subscribe({
       next: (appointment) => {
         this.selectedAppointment = appointment;
         this.availableSlots = this.availableSlots.filter((slot) => slot.hora !== (value.hora ?? ''));
@@ -175,11 +178,49 @@ export class NewAppointmentFormComponent implements OnInit {
         this.pendingAction = null;
         this.showDialog = true;
       },
-      error: () => {
-        this.errorMessage = 'No fue posible crear la cita. Verifica disponibilidad y datos requeridos.';
+      error: (err) => {
+        let errorMsg = 'Error desconocido';
+        
+        if (err.error && err.error.data) {
+          const validationErrors = err.error.data;
+          const errorMessages: string[] = [];
+          
+          if (validationErrors.paciente) {
+            const pacienteErrors = typeof validationErrors.paciente === 'object' 
+              ? Object.values(validationErrors.paciente).flat() 
+              : [validationErrors.paciente];
+            errorMessages.push(...pacienteErrors.map(e => `Paciente: ${e}`));
+          }
+          
+          if (validationErrors.fechaHora) {
+            const fechaErrors = Array.isArray(validationErrors.fechaHora) 
+              ? validationErrors.fechaHora 
+              : [validationErrors.fechaHora];
+            errorMessages.push(...fechaErrors.map((e: string) => `Fecha: ${e}`));
+          }
+          
+          if (validationErrors.medicoId) {
+            const medicoErrors = Array.isArray(validationErrors.medicoId) 
+              ? validationErrors.medicoId 
+              : [validationErrors.medicoId];
+            errorMessages.push(...medicoErrors.map((e: string) => `Médico: ${e}`));
+          }
+          
+          if (errorMessages.length > 0) {
+            errorMsg = errorMessages.join('. ');
+          } else {
+            errorMsg = JSON.stringify(validationErrors);
+          }
+        } else if (err.status === 400) {
+          errorMsg = 'Datos inválidos. Verifica que todos los campos requeridos estén correctos.';
+        } else if (err.status === 0) {
+          errorMsg = 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo.';
+        }
+        
+        this.errorMessage = errorMsg;
         this.dialogMode = 'result';
         this.dialogVariant = 'error';
-        this.dialogMessage = 'No se pudo crear la cita. Revisa los datos e intenta nuevamente.';
+        this.dialogMessage = errorMsg;
         this.pendingAction = null;
         this.showDialog = true;
       }

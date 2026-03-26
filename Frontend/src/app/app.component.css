@@ -92,9 +92,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 34px;
+  padding: 0 clamp(16px, 4vw, 34px);
   background: #143240;
   color: #e8f3f7;
+  height: clamp(60px, 10vh, 84px);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 16px);
+}
+
+.app-brand-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.2vw + 0.8rem, 1.2rem);
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .app-user {
